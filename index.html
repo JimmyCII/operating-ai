@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Operating AI — The Series | Jim Cockerham</title>
+<meta name="description" content="Four real builds, one discipline — from learning AI to a co-teacher built from twenty years of teaching. A flip-through series by Jim Cockerham (Data Ninja)." />
+
+<!-- Social share card -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Operating AI — The Series" />
+<meta property="og:description" content="Four real builds, one discipline. Flip through the whole series." />
+<meta property="og:image" content="https://jimmycii.github.io/operating-ai/cover.jpg" />
+<meta property="og:url" content="https://jimmycii.github.io/operating-ai/" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Operating AI — The Series" />
+<meta name="twitter:description" content="Four real builds, one discipline. Flip through the whole series." />
+<meta name="twitter:image" content="https://jimmycii.github.io/operating-ai/cover.jpg" />
+
+<style>
+  :root { --green:#4ade80; --amber:#e7b469; --ink:#eaf2ff; }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: radial-gradient(120% 90% at 50% 8%, #16224a 0%, #0a1226 55%, #060a18 100%);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex; flex-direction: column; align-items: center;
+    min-height: 100%;
+  }
+  header { text-align: center; padding: 22px 16px 6px; }
+  header .kicker {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    letter-spacing: .28em; font-size: 12px; color: var(--green); font-weight: 700;
+  }
+  header h1 { margin: 6px 0 2px; font-size: clamp(20px, 4vw, 30px); letter-spacing: .5px; }
+  header h1 .ai { color: var(--green); }
+  header p { margin: 0; color: #9fb0d4; font-size: 13px; font-style: italic; }
+
+  #stage { flex: 1; width: 100%; display: flex; align-items: center; justify-content: center; padding: 8px 12px 4px; }
+  #flipbook { touch-action: pan-y; }
+  #flipbook img { width: 100%; height: 100%; display: block; }
+
+  .controls { display: flex; align-items: center; gap: 18px; padding: 10px 0 24px; }
+  .controls button {
+    background: rgba(255,255,255,.06); color: var(--ink); border: 1px solid rgba(160,180,220,.35);
+    border-radius: 999px; width: 46px; height: 46px; font-size: 20px; cursor: pointer;
+    transition: background .15s, border-color .15s;
+  }
+  .controls button:hover { background: rgba(74,222,128,.18); border-color: var(--green); }
+  .controls .counter { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; color: #9fb0d4; min-width: 92px; text-align: center; }
+  .hint { color:#7e8cb0; font-size: 12px; padding-bottom: 18px; text-align:center; }
+  footer { color:#6b779c; font-size: 12px; padding: 0 0 22px; font-family: ui-monospace, Menlo, Consolas, monospace; letter-spacing:.08em; }
+</style>
+</head>
+<body>
+  <header>
+    <div class="kicker">DATA NINJA · THE SERIES</div>
+    <h1>OPERATING <span class="ai">AI</span></h1>
+    <p>Stop using it. Start operating it.</p>
+  </header>
+
+  <div id="stage"><div id="flipbook"></div></div>
+
+  <div class="controls">
+    <button id="prev" aria-label="Previous page">‹</button>
+    <div class="counter" id="counter">— / —</div>
+    <button id="next" aria-label="Next page">›</button>
+  </div>
+  <div class="hint">Drag a page corner, use the arrows, or your ← → keys to flip.</div>
+  <footer>JIM COCKERHAM · OPERATING AI, NOT JUST USING IT</footer>
+
+  <script src="lib/page-flip.browser.js"></script>
+  <script>
+    var TOTAL = 17;
+    var pages = [];
+    for (var i = 1; i <= TOTAL; i++) {
+      pages.push('pages/page-' + String(i).padStart(2, '0') + '.jpg');
+    }
+
+    var el = document.getElementById('flipbook');
+    var pageFlip = new St.PageFlip(el, {
+      width: 550, height: 712,        // letter-portrait ratio (~0.773)
+      size: 'stretch',
+      minWidth: 300, maxWidth: 1100,
+      minHeight: 388, maxHeight: 1423,
+      maxShadowOpacity: 0.5,
+      showCover: true,
+      usePortrait: true,
+      mobileScrollSupport: false
+    });
+
+    pageFlip.loadFromImages(pages);
+
+    var counter = document.getElementById('counter');
+    function render() {
+      var cur = pageFlip.getCurrentPageIndex() + 1;
+      counter.textContent = cur + ' / ' + TOTAL;
+    }
+    pageFlip.on('init', render);
+    pageFlip.on('flip', render);
+
+    document.getElementById('prev').addEventListener('click', function(){ pageFlip.flipPrev(); });
+    document.getElementById('next').addEventListener('click', function(){ pageFlip.flipNext(); });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'ArrowLeft') pageFlip.flipPrev();
+      if (e.key === 'ArrowRight') pageFlip.flipNext();
+    });
+  </script>
+</body>
+</html>
