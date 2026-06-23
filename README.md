@@ -3,7 +3,7 @@
 A self-hosted, page-flip flipbook of the four-part "Operating AI" series by Jim Cockerham.
 Built from `Operating_AI_Series_Booklet_v2.pdf` (cover → contents → four articles, 17 pages).
 
-**Live (after Pages is enabled):** https://jimmycii.github.io/operating-ai/
+**Live:** https://jimmycii.github.io/operating-ai/
 
 ## Contents
 - `index.html` — the flipbook viewer (StPageFlip, vanilla JS)
